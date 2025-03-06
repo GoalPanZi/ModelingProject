@@ -4,7 +4,8 @@ from enum import Enum
 
 class ObjectType(Enum):
     LINE = 0
-    TRIANGLE = 1
+    LINES = 1
+    TRIANGLE = 2
 
 class Object:
     def __init__(self, vertices : np.ndarray, objectType : ObjectType, indices : np.ndarray = None):
