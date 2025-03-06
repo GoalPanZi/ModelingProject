@@ -30,7 +30,12 @@ class Camera2D:
         self.dragging = False
 
     def updateProjection(self):
+        print("projection update call")
         glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        glOrtho(-10*self.zoom + self.offsetX, 10*self.zoom + self.offsetX,
+                 -10*self.zoom + self.offsetY, 10*self.zoom + self.offsetY, -1.0, 1.0)
+        glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
         glOrtho(-10*self.zoom + self.offsetX, 10*self.zoom + self.offsetX,
                  -10*self.zoom + self.offsetY, 10*self.zoom + self.offsetY, -1.0, 1.0)

@@ -1,7 +1,7 @@
 import glfw
 import numpy as np
 from Utils.Camera2D import Camera2D
-from Utils.Object import Object
+from Utils.Object import Object, ObjectType
 from Utils.Renderer import Renderer
 
 from OpenGL.GL import *
@@ -12,9 +12,9 @@ class ProjectApp:
         self.height = height
         self.title = title
         self.window = None
-        self.camera = Camera2D()
+        self.camera = None
+        self.renderer = None
         self.objects : list[Object] = []
-        self.renderer = Renderer()
 
     
     def initialize(self):
@@ -35,7 +35,12 @@ class ProjectApp:
         glfw.set_cursor_pos_callback(self.window, self.cursorPosCallback)
         glfw.set_mouse_button_callback(self.window, self.mouseButtonCallback)
 
+        self.camera = Camera2D()
+        self.renderer = Renderer()
+
         self.camera.updateProjection()
+
+        self.setup()
 
     def keyCallback(self, window, key, scancode, action, mods):
         if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
@@ -59,18 +64,27 @@ class ProjectApp:
 
     def run(self):
         while not glfw.window_should_close(self.window):
-            glClear(GL_COLOR_BUFFER_BIT)
-            glColor3f(0.5, 0.5, 0.5)
-            glBegin(GL_TRIANGLES)
-            glVertex2f(-5, 0)
-            glVertex2f(5, 0)
-            glVertex2f(0, 10)
-            glEnd()
-
-            glfw.swap_buffers(self.window)
             glfw.poll_events()
+            self.draw()
+            glfw.swap_buffers(self.window)
 
         glfw.terminate()
+
+    def setup(self):
+        pass
+
+    def draw(self):
+        self.renderer.render(self.objects)
+
+    def addLine(self, vertices):
+        line = Object(vertices=vertices, objectType=ObjectType.LINE)
+        self.objects.append(line)
+
+    def addGraph(self, vertices):
+        graph = Object(vertices=vertices, objectType=ObjectType.LINE)
+        self.objects.append(graph)
+
+    
 
 
 
