@@ -1,4 +1,4 @@
-from Utils.ProjectApp import ProjectApp
+from Utils.ProjectAppQt import ProjectAppQt
 import numpy as np
 
 
@@ -17,20 +17,19 @@ for i in range(-10,10):
     gridData.append([i, 10.0])
 
 grid = np.array(gridData, dtype=np.float32)
+##
+##class RungeKutta(ProjectAppQt):
+##    def __init__(self, width, height):
+##        super().__init__(width, height, "Runge-Kutta Demos")
 
-class RungeKutta(ProjectApp):
-    def __init__(self, width, height):
-        super().__init__(width, height, "Runge-Kutta Demos")
-
-    def setup(self):
-        #Initial settings
-        self.addLine(xAxis)
-        self.addLine(yAxis)
-        self.addLines(grid)
-        self.addGraph(g1)
+##    def setup(self):
+##        #Initial settings
+##        self.addLine(xAxis)
+##        self.addLine(yAxis)
+##        self.addLines(grid)
+##        self.addGraph(g1)
 
 
 if __name__=="__main__":
-    rkApp = RungeKutta(1000, 800)
-    rkApp.initialize()
-    rkApp.run()
+    testApp = ProjectAppQt(1000, 800, "Test")
+    testApp.run()

@@ -1,8 +1,6 @@
 import glfw
-import numpy as np
 from Utils.Object import Object, ObjectType
 from Utils.Renderer import Renderer
-
 from OpenGL.GL import *
 
 class ProjectApp:
@@ -96,8 +94,5 @@ class ProjectApp:
     def addGraph(self, vertices):
         graph = Object(vertices=vertices, objectType=ObjectType.LINE)
         self.objects.append(graph)
-
-    
-
 
 
