@@ -5,7 +5,7 @@ from Utils.Camera2D import Camera2D
 
 class Renderer:
     def __init__(self, ratio : float):
-        self.shaderlist : list[str] = ["lineShader"]
+        self.shaderlist : list[str] = ["lineShader", "triangleShader"]
         self.shaderPrograms : dict[str, ShaderProgram] = {}
         self.VAO : list[int] = []
         self.VBO : list[int] = []
@@ -35,20 +35,27 @@ class Renderer:
             match (object.objectType):
                 case ObjectType.LINE:
                     glUseProgram(self.shaderPrograms["lineShader"])
+                    bindingLocation = glGetUniformLocation(self.shaderPrograms["lineShader"], "color")
+                    glUniform4f(bindingLocation, object.color[0], object.color[1], object.color[2], object.color[3])
                     glBindVertexArray(object.vao)
+                    glLineWidth(object.lineWidth)
                     glDrawArrays(GL_LINE_STRIP, 0, len(object.vertices))
 
                 case ObjectType.LINES:
                     glUseProgram(self.shaderPrograms["lineShader"])
+                    bindingLocation = glGetUniformLocation(self.shaderPrograms["lineShader"], "color")
+                    glUniform4f(bindingLocation, object.color[0], object.color[1], object.color[2], object.color[3])
                     glBindVertexArray(object.vao)
+                    glLineWidth(object.lineWidth)
                     glDrawArrays(GL_LINES, 0, len(object.vertices))
 
-                case ObjectType.TRIANGLE:
+                case ObjectType.TRIANGLES:
                     glUseProgram(self.shaderPrograms["triangleShader"])
+                    bindingLocation = glGetUniformLocation(self.shaderPrograms["triangleShader"], "color")
+                    glUniform4f(bindingLocation, object.color[0], object.color[1], object.color[2], object.color[3])
                     glBindVertexArray(object.vao)
 
                     if object.indices is not None:
-                        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object.ebo)
                         glDrawElements(GL_TRIANGLES, len(object.indices), GL_UNSIGNED_INT, None)
                     else:
                         glDrawArrays(GL_TRIANGLES, 0, len(object.vertices))
