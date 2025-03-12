@@ -4,6 +4,7 @@ from Utils.Object import Object, ObjectType
 from Utils.Camera2D import Camera2D
 
 class Renderer:
+    # Need to Create Instance after GL context is created
     def __init__(self, ratio : float):
         self.shaderlist : list[str] = ["lineShader", "triangleShader"]
         self.shaderPrograms : dict[str, ShaderProgram] = {}

@@ -1,11 +1,29 @@
 import numpy as np
 from OpenGL.GL import *
 from enum import Enum
+from dataclasses import dataclass
 
 class ObjectType(Enum):
     LINE = 0
     LINES = 1
     TRIANGLES = 2
+
+@dataclass
+class ObjectConfig:
+    color : tuple[float, float, float, float] = (1.0, 1.0, 1.0, 1.0)
+    lineWidth : float = 1.0
+    vao : int = None
+    vbo : int = None
+    ebo : int = None
+    
+    def set_vao(self, vao : int):
+        self.vao = vao
+
+    def set_vbo(self, vbo : int):
+        self.vbo = vbo
+
+    def set_ebo(self, ebo : int):
+        self.ebo = ebo
 
 class Object:
     def __init__(self, 
