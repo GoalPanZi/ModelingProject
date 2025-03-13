@@ -22,14 +22,6 @@ class RungeKutta(ProjectApp):
     def __init__(self, width, height):
         super().__init__(width, height, "Runge-Kutta Demos")
 
-    def setup(self):
-        #Initial settings
-        self.addLine(xAxis)
-        self.addLine(yAxis)
-        self.addLines(grid)
-        self.addGraph(g1)
-
-
 if __name__=="__main__":
     rkApp = RungeKutta(1000, 800)
     rkApp.initialize()

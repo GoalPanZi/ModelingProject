@@ -1,14 +1,14 @@
 from OpenGL.GL import *
 import numpy as np
 class Camera2D:
-    def __init__(self, ratio : float):
+    def __init__(self, width : int, height : int):
         self.zoom = 1.0
         self.offsetX = 0.0
         self.offsetY = 0.0
         self.dragging = False
         self.dragStartX = 0.0
         self.dragStartY = 0.0
-        self.ratio : float = ratio
+        self.ratio : float = width / height
 
     def setRatio(self, ratio : float):
         self.ratio = ratio
