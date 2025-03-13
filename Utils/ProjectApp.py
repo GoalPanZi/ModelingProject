@@ -23,13 +23,7 @@ class ProjectApp:
             print("Failed to initialize GLFW")
             return
         
-<<<<<<< HEAD
         glfw.window_hint(glfw.SAMPLES, 4)
-=======
-        
-        glfw.window_hint(glfw.SAMPLES, 4)
-        
->>>>>>> 03c31feaf1e063179142544b8dac246c25144752
         self.window = glfw.create_window(self.width, self.height, self.title, None, None)
 
         if not self.window:
@@ -42,19 +36,7 @@ class ProjectApp:
         glfw.set_key_callback(self.window, self.keyCallback)
         glfw.set_scroll_callback(self.window, self.scrollCallback)
 
-<<<<<<< HEAD
         self.renderer = Renderer(self.width, self.height)
-=======
-        glEnable(GL_MULTISAMPLE)
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
-        glEnable(GL_LINE_SMOOTH)
-
-        # Initialize renderer
-        self.renderer = Renderer(self.ratio)
->>>>>>> 03c31feaf1e063179142544b8dac246c25144752
-
 
         self.setup()
 
@@ -69,32 +51,6 @@ class ProjectApp:
             elif yoffset < 0:
                 self.renderer.zoomOut()
 
-<<<<<<< HEAD
-=======
-    def cursorPosCallback(self, window, xpos, ypos):
-        if not self.dragLocked:
-            x = float(xpos) / float(self.width) * self.ratio
-            y = float(ypos) / float(self.height)
-            self.renderer.move(x, y)
-
-    def mouseButtonCallback(self, window, button, action, mods):
-        if button == glfw.MOUSE_BUTTON_LEFT and action == glfw.PRESS:
-            if not self.dragLocked:
-                x, y = glfw.get_cursor_pos(window)
-                x = float(x) / float(self.width) * self.ratio
-                y = float(y) / float(self.height)
-                self.renderer.startDragging(x, y)
-        elif button == glfw.MOUSE_BUTTON_LEFT and action == glfw.RELEASE:
-            if not self.dragLocked:
-                self.renderer.stopDragging()
-
-    def windowSizeCallback(self, window, width, height):
-        self.width = width
-        self.height = height
-        self.ratio = width / height
-        self.renderer.setWindowSize(width, height)
-
->>>>>>> 03c31feaf1e063179142544b8dac246c25144752
     def run(self):
         while not glfw.window_should_close(self.window):
             glfw.poll_events()
@@ -119,7 +75,6 @@ class ProjectApp:
             [0.0, 10.0]
         ], dtype=np.float32)
 
-<<<<<<< HEAD
         xAxisUnit = lineUnit(xAxis)
         yAxisUnit = lineUnit(yAxis)
 
@@ -128,24 +83,6 @@ class ProjectApp:
         axisObject.addRenderUnit(yAxisUnit)
 
         self.renderer.addObject(axisObject)
-=======
-    def draw(self):
-        glClearColor(*self.backgroundColor)
-        glClear(GL_COLOR_BUFFER_BIT)
-        self.renderer.render(self.objects)
-
-    def addLine(self, vertices, color = (1.0, 1.0, 1.0, 1.0), lineWidth = 1.0):
-        line = Object(vertices=vertices, objectType=ObjectType.LINE, color=color, lineWidth=lineWidth)
-        self.objects.append(line)
-
-    def addLines(self, vertices, color = (1.0, 1.0, 1.0, 1.0), lineWidth = 1.0):
-        lines = Object(vertices=vertices, objectType=ObjectType.LINES, color=color, lineWidth=lineWidth)
-        self.objects.append(lines)
-
-    def addGraph(self, vertices, color = (1.0, 1.0, 1.0, 1.0), lineWidth = 1.0):
-        graph = Object(vertices=vertices, objectType=ObjectType.LINE, color=color, lineWidth=lineWidth)
-        self.objects.append(graph)
->>>>>>> 03c31feaf1e063179142544b8dac246c25144752
 
     def addTriangle(self, vertices, color = (1.0, 1.0, 1.0, 1.0)):
         triangle = Object(vertices=vertices, objectType=ObjectType.TRIANGLES, color=color)

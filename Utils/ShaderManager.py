@@ -7,7 +7,7 @@ class ShaderManager:
     def __init__(self):
         self.shaderMap : dict[RenderUnitType, str] = {RenderUnitType.LINE : "lineShader",
                                                       RenderUnitType.LINES : "lineShader",
-                                                      RenderUnitType.TRIANGLE : "triangleShader"}
+                                                      RenderUnitType.TRIANGLES : "triangleShader"}
         self.shaderPrograms : dict[str, ShaderProgram] = { "lineShader" : None,
                                                             "triangleShader" : None}
 

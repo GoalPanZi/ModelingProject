@@ -5,7 +5,6 @@ from Utils.ShaderManager import ShaderManager
 import numpy as np
 
 class Renderer:
-<<<<<<< HEAD
     def __init__(self, width : int, height : int):
         self.width = width
         self.height = height
@@ -31,64 +30,6 @@ class Renderer:
         self.depthBuffer = glGenRenderbuffers(1)
 
         glBindFramebuffer(GL_FRAMEBUFFER, self.msaaFramebuffer)
-=======
-    # Need to Create Instance after GL context is created
-    def __init__(self, ratio : float):
-        self.shaderlist : list[str] = ["lineShader", "triangleShader"]
-        self.shaderPrograms : dict[str, ShaderProgram] = {}
-        self.VAO : list[int] = []
-        self.VBO : list[int] = []
-        self.EBO : list[int] = []
-        self.camera : Camera2D = Camera2D(ratio)
-
-        for shaderName in self.shaderlist:
-            with open(f"Utils/Shaders/{shaderName}.vert", 'r') as file:
-                vertShaderSource = file.read()
-                vertShader = compileShader(vertShaderSource, GL_VERTEX_SHADER)
-
-            with open(f"Utils/Shaders/{shaderName}.frag", 'r') as file:
-                fragShaderSource = file.read()
-                fragShader = compileShader(fragShaderSource, GL_FRAGMENT_SHADER)
-            shaderProgram = compileProgram(vertShader,fragShader)
-            self.shaderPrograms[shaderName] = shaderProgram
-
-        for shaderName in self.shaderlist:
-            glUseProgram(self.shaderPrograms[shaderName])
-            bindingLocation = glGetUniformLocation(self.shaderPrograms[shaderName], "transform")
-            glUniformMatrix4fv(bindingLocation, 1, GL_FALSE, self.camera.getProjection())
-            bindingLocation = glGetUniformLocation(self.shaderPrograms[shaderName], "color")
-            glUniform4f(bindingLocation, 1.0, 1.0, 1.0, 1.0)
-        
-    def render(self, objects : list[Object]):
-        for object in objects:
-            match (object.objectType):
-                case ObjectType.LINE:
-                    glUseProgram(self.shaderPrograms["lineShader"])
-                    bindingLocation = glGetUniformLocation(self.shaderPrograms["lineShader"], "color")
-                    glUniform4f(bindingLocation, object.color[0], object.color[1], object.color[2], object.color[3])
-                    glBindVertexArray(object.vao)
-                    glLineWidth(object.lineWidth)
-                    glDrawArrays(GL_LINE_STRIP, 0, len(object.vertices))
-
-                case ObjectType.LINES:
-                    glUseProgram(self.shaderPrograms["lineShader"])
-                    bindingLocation = glGetUniformLocation(self.shaderPrograms["lineShader"], "color")
-                    glUniform4f(bindingLocation, object.color[0], object.color[1], object.color[2], object.color[3])
-                    glBindVertexArray(object.vao)
-                    glLineWidth(object.lineWidth)
-                    glDrawArrays(GL_LINES, 0, len(object.vertices))
-
-                case ObjectType.TRIANGLES:
-                    glUseProgram(self.shaderPrograms["triangleShader"])
-                    bindingLocation = glGetUniformLocation(self.shaderPrograms["triangleShader"], "color")
-                    glUniform4f(bindingLocation, object.color[0], object.color[1], object.color[2], object.color[3])
-                    glBindVertexArray(object.vao)
-
-                    if object.indices is not None:
-                        glDrawElements(GL_TRIANGLES, len(object.indices), GL_UNSIGNED_INT, None)
-                    else:
-                        glDrawArrays(GL_TRIANGLES, 0, len(object.vertices))
->>>>>>> 03c31feaf1e063179142544b8dac246c25144752
 
         glBindRenderbuffer(GL_RENDERBUFFER, self.msaaScreenBuffer)
         glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_RGBA8, self.width, self.height)
