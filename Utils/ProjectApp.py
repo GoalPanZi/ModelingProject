@@ -2,7 +2,6 @@ import glfw
 import numpy as np
 from Utils.Object import Object, lineUnit
 from Utils.Renderer import Renderer
-
 from OpenGL.GL import *
 
 class ProjectApp:
@@ -14,6 +13,9 @@ class ProjectApp:
         self.window = None
         self.renderer = None
         self.objects : list[Object] = []
+        self.zoomLocked = False
+        self.dragLocked = False
+        self.backgroundColor = (1.0, 1.0, 1.0, 1.0)
 
     
     def initialize(self):
@@ -21,7 +23,13 @@ class ProjectApp:
             print("Failed to initialize GLFW")
             return
         
+<<<<<<< HEAD
         glfw.window_hint(glfw.SAMPLES, 4)
+=======
+        
+        glfw.window_hint(glfw.SAMPLES, 4)
+        
+>>>>>>> 03c31feaf1e063179142544b8dac246c25144752
         self.window = glfw.create_window(self.width, self.height, self.title, None, None)
 
         if not self.window:
@@ -34,7 +42,19 @@ class ProjectApp:
         glfw.set_key_callback(self.window, self.keyCallback)
         glfw.set_scroll_callback(self.window, self.scrollCallback)
 
+<<<<<<< HEAD
         self.renderer = Renderer(self.width, self.height)
+=======
+        glEnable(GL_MULTISAMPLE)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+        glEnable(GL_LINE_SMOOTH)
+
+        # Initialize renderer
+        self.renderer = Renderer(self.ratio)
+>>>>>>> 03c31feaf1e063179142544b8dac246c25144752
+
 
         self.setup()
 
@@ -43,11 +63,38 @@ class ProjectApp:
             glfw.set_window_should_close(window, True)
 
     def scrollCallback(self, window, xoffset, yoffset):
-        if yoffset > 0:
-            self.renderer.zoomIn()
-        elif yoffset < 0:
-            self.renderer.zoomOut()
+        if not self.zoomLocked:
+            if yoffset > 0:
+                self.renderer.zoomIn()
+            elif yoffset < 0:
+                self.renderer.zoomOut()
 
+<<<<<<< HEAD
+=======
+    def cursorPosCallback(self, window, xpos, ypos):
+        if not self.dragLocked:
+            x = float(xpos) / float(self.width) * self.ratio
+            y = float(ypos) / float(self.height)
+            self.renderer.move(x, y)
+
+    def mouseButtonCallback(self, window, button, action, mods):
+        if button == glfw.MOUSE_BUTTON_LEFT and action == glfw.PRESS:
+            if not self.dragLocked:
+                x, y = glfw.get_cursor_pos(window)
+                x = float(x) / float(self.width) * self.ratio
+                y = float(y) / float(self.height)
+                self.renderer.startDragging(x, y)
+        elif button == glfw.MOUSE_BUTTON_LEFT and action == glfw.RELEASE:
+            if not self.dragLocked:
+                self.renderer.stopDragging()
+
+    def windowSizeCallback(self, window, width, height):
+        self.width = width
+        self.height = height
+        self.ratio = width / height
+        self.renderer.setWindowSize(width, height)
+
+>>>>>>> 03c31feaf1e063179142544b8dac246c25144752
     def run(self):
         while not glfw.window_should_close(self.window):
             glfw.poll_events()
@@ -55,6 +102,12 @@ class ProjectApp:
             glfw.swap_buffers(self.window)
 
         glfw.terminate()
+
+    def lockZoom(self):
+        self.zoomLocked = True
+
+    def lockDrag(self):
+        self.dragLocked = True
 
     def setup(self):
         xAxis = np.array([
@@ -66,6 +119,7 @@ class ProjectApp:
             [0.0, 10.0]
         ], dtype=np.float32)
 
+<<<<<<< HEAD
         xAxisUnit = lineUnit(xAxis)
         yAxisUnit = lineUnit(yAxis)
 
@@ -74,8 +128,30 @@ class ProjectApp:
         axisObject.addRenderUnit(yAxisUnit)
 
         self.renderer.addObject(axisObject)
+=======
+    def draw(self):
+        glClearColor(*self.backgroundColor)
+        glClear(GL_COLOR_BUFFER_BIT)
+        self.renderer.render(self.objects)
 
-    
+    def addLine(self, vertices, color = (1.0, 1.0, 1.0, 1.0), lineWidth = 1.0):
+        line = Object(vertices=vertices, objectType=ObjectType.LINE, color=color, lineWidth=lineWidth)
+        self.objects.append(line)
 
+    def addLines(self, vertices, color = (1.0, 1.0, 1.0, 1.0), lineWidth = 1.0):
+        lines = Object(vertices=vertices, objectType=ObjectType.LINES, color=color, lineWidth=lineWidth)
+        self.objects.append(lines)
 
+    def addGraph(self, vertices, color = (1.0, 1.0, 1.0, 1.0), lineWidth = 1.0):
+        graph = Object(vertices=vertices, objectType=ObjectType.LINE, color=color, lineWidth=lineWidth)
+        self.objects.append(graph)
+>>>>>>> 03c31feaf1e063179142544b8dac246c25144752
 
+    def addTriangle(self, vertices, color = (1.0, 1.0, 1.0, 1.0)):
+        triangle = Object(vertices=vertices, objectType=ObjectType.TRIANGLES, color=color)
+        self.objects.append(triangle)
+
+    def addRectangle(self, vertices, color = (1.0, 1.0, 1.0, 1.0)):
+        indices = np.array([0, 1, 2, 0, 2, 3], dtype=np.uint32)
+        rectangle = Object(vertices=vertices, objectType=ObjectType.TRIANGLES, color=color, indices=indices)
+        self.objects.append(rectangle)

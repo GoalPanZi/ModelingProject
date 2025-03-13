@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from Utils.ProjectApp import ProjectApp
 import numpy as np
 
@@ -21,8 +22,10 @@ grid = np.array(gridData, dtype=np.float32)
 class RungeKutta(ProjectApp):
     def __init__(self, width, height):
         super().__init__(width, height, "Runge-Kutta Demos")
+=======
+from Utils.ModelingAppQt import ModelingAppQt
+>>>>>>> 03c31feaf1e063179142544b8dac246c25144752
 
 if __name__=="__main__":
-    rkApp = RungeKutta(1000, 800)
-    rkApp.initialize()
-    rkApp.run()
+    testApp = ModelingAppQt(1600, 1200, "Test")
+    testApp.run()
